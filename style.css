@@ -66,6 +66,7 @@ h1.heading {
     border-radius: 5px;
 }
 
+/*
 div#game-area {
     width: 500px;
     height: 500px;
@@ -75,12 +76,11 @@ div#game-area {
     grid-rows: 25% 25% 25% 25%;
     border-radius: 5px;
 }
+*/
+/*
 
 div.game-item {
     text-align: center;
-    
-/*    vertical-align: middle;*/
-/*    line-height: 50px;*/
     background-color: darkorange;
     width: 25%;
     height: 25%;
@@ -89,10 +89,37 @@ div.game-item {
     border-width: 3px;
     border-style: solid;
     border-width: thin;
-/*    grid-row: data-col;*/
-/*    grid-row: 2;*/
     border-collapse: collapse;
     display: table-cell;
+}
+*/
+
+table#game-table {
+    width: 500px;
+    height: 500px;
+    background-color: #535353;
+    border-radius: 5px;
+    border-color: black;
+    border-spacing: 10px;
+/*    border-collapse: collapse;*/
+/*    border-width: thick;*/
+}
+
+td {
+    box-sizing: border-box;
+/*    margin: 10px 10px 10px 10px;*/
+
+/*
+    border-style: solid;
+    background-color: #6f6f6e;
+    border-color: aqua;
+*/
+    background-color: white;
+
+    border-width: 10px;
+    border-radius: 5px;
+    text-align: center;
+/*    border-color: black;*/
 }
 
 
