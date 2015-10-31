@@ -7,7 +7,7 @@ function newGameButton() {
 }
 
 function keyPressAnaliser(key) {
-   window.alert(key); 
+//   window.alert(key); 
 }
 
 var interval = window.prompt("Enter timer interval in miliseconds", 100);

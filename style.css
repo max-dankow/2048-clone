@@ -66,6 +66,36 @@ h1.heading {
     border-radius: 5px;
 }
 
+div#game-area {
+    width: 500px;
+    height: 500px;
+    background-color: aqua;
+    display: table;
+    grid-columns: 25% 25% 25% 25%;
+    grid-rows: 25% 25% 25% 25%;
+    border-radius: 5px;
+}
+
+div.game-item {
+    text-align: center;
+    
+/*    vertical-align: middle;*/
+/*    line-height: 50px;*/
+    background-color: darkorange;
+    width: 25%;
+    height: 25%;
+    border-radius: 5px;
+    box-sizing: border-box;
+    border-width: 3px;
+    border-style: solid;
+    border-width: thin;
+/*    grid-row: data-col;*/
+/*    grid-row: 2;*/
+    border-collapse: collapse;
+    display: table-cell;
+}
+
+
 footer {
     border-top-style: solid;
     border-width: thin;
