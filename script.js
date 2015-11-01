@@ -2,7 +2,8 @@ var gameSize = 4,
     // Отражает состояние игрового поля. Хранит показатель степени 2. 
     field = [],
     colors = ["white", "coral", "yellow", "springgreen", "dodgerblue"],
-    table = document.getElementById("game-table");
+    table = document.getElementById("game-table"),
+    score = 0;
 
 function countCellsOfValue(field, value) {
     "use strict";
@@ -41,6 +42,7 @@ function initField(field) {
         field[i] = 0;
     }
     addCells(field, 1, 3);
+    score = 0;
 }
 
 function getIndex(col, row) {
@@ -71,6 +73,7 @@ function gameUpdate(field, table) {
             
         }
     }
+    document.getElementById("score").innerHTML = score;
 }
 
 function newGameButton() {
@@ -124,6 +127,7 @@ function moveTile(field, col, row, offsetCol, offsetRow) {
         action = true;
     }
     if (canMerge(field, col, row, offsetCol, offsetRow)) {
+        score += Math.pow(2, field[getIndex(col, row)] + 1);
         field[getIndex(col + offsetCol, row + offsetRow)] = field[getIndex(col, row)] + 1;
         field[getIndex(col, row)] = 0;
         action = true;
@@ -133,50 +137,54 @@ function moveTile(field, col, row, offsetCol, offsetRow) {
 
 function fieldMoveUp(field) {
     "use strict";
-    var col, row;
+    var col, row, action = false;
     for (col = 1; col <= gameSize; col += 1) {
         for (row = 1; row <= gameSize; row += 1) {
             if (field[getIndex(col, row)] !== 0) {
-                moveTile(field, col, row, 0, -1);
+                action = moveTile(field, col, row, 0, -1) || action;
             }
         }
     }
+    return action;
 }
 
 function fieldMoveDown(field) {
     "use strict";
-    var col, row;
+    var col, row, action = false;
     for (col = 1; col <= gameSize; col += 1) {
         for (row = gameSize; row > 0; row -= 1) {
             if (field[getIndex(col, row)] !== 0) {
-                moveTile(field, col, row, 0, 1);
+                action = moveTile(field, col, row, 0, 1) || action;
             }
         }
     }
+    return action;
 }
 
 function fieldMoveLeft(fieldf) {
     "use strict";
-    var col, row;
+    var col, row, action = false;
     for (row = 1; row <= gameSize; row += 1) {
         for (col = 1; col <= gameSize; col += 1) {
             if (field[getIndex(col, row)] !== 0) {
-                moveTile(field, col, row, -1, 0);
+                action = moveTile(field, col, row, -1, 0) || action;
             }
         }
     }
+    return action;
 }
 
 function fieldMoveRight(fieldf) {
     "use strict";
-    var col, row;
+    var col, row, action = false;
     for (row = 1; row <= gameSize; row += 1) {
         for (col = gameSize; col > 0; col -= 1) {
             if (field[getIndex(col, row)] !== 0) {
-                moveTile(field, col, row, 1, 0);
+                action = moveTile(field, col, row, 1, 0) || action;
             }
         }
     }
+    return action;
 }
 
 function keyPressHandler(event) {
@@ -186,27 +194,31 @@ function keyPressHandler(event) {
     switch (key) {
     // Left
     case 37:
-        fieldMoveLeft(field);
-        addCells(field, 1, 1);
-        gameUpdate(field, table);
+        if (fieldMoveLeft(field)) {
+            addCells(field, 1, 1);
+            gameUpdate(field, table);
+        }
         break;
     // Up
     case 38:
-        fieldMoveUp(field);
-        addCells(field, 1, 1);
-        gameUpdate(field, table);
+        if (fieldMoveUp(field)) {
+            addCells(field, 1, 1);
+            gameUpdate(field, table);
+        }
         break;
     // Right
     case 39:
-        fieldMoveRight(field);
-        addCells(field, 1, 1);
-        gameUpdate(field, table);
+        if (fieldMoveRight(field)) {
+            addCells(field, 1, 1);
+            gameUpdate(field, table);
+        }
         break;
     // Down
     case 40:
-        fieldMoveDown(field);
-        addCells(field, 1, 1);
-        gameUpdate(field, table);
+        if (fieldMoveDown(field)) {
+            addCells(field, 1, 1);
+            gameUpdate(field, table);
+        }
         break;
     default:
         return;
