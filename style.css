@@ -1,14 +1,15 @@
 html {
     background-color: beige;
 }
+
 body {
     font-family: sans-serif;
     color: #535353;
 }
+
 #container {
     margin-left: auto;
     margin-right: auto;
-
     width: 500px;
     background-color: beige;
 }
@@ -19,14 +20,12 @@ body {
     background-color: #776e65;
     border-radius: 3px;
     text-align: center;
-/*    vertical-align: middle;*/
     line-height: 50px;
     font-size: 20px;
     width: 140px;
     height: 50px;
     font-weight: bold;
     margin: 0px;
-/*    vertical-align: ;*/
 }
 
 p {

@@ -41,10 +41,6 @@ function initField(field) {
         field[i] = 0;
     }
     addCells(field, 1, 3);
-    addCells(field, 10, 1);
-    addCells(field, 2, 1);
-    addCells(field, 3, 1);
-    addCells(field, 4, 1);
 }
 
 function getIndex(col, row) {
@@ -81,6 +77,141 @@ function newGameButton() {
     "use strict";
     initField(field);
     gameUpdate(field, table);
+}
+
+function isValidCell(field, col, row) {
+    "use strict";
+    if (col > 0
+            && col <= gameSize
+            && row > 0
+            && row <= gameSize) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function canMove(field, col, row, offsetCol, offsetRow) {
+    "use strict";
+    if (isValidCell(field, col + offsetCol, row + offsetRow)
+            && field[getIndex(col + offsetCol, row + offsetRow)] === 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function canMerge(field, col, row, offsetCol, offsetRow) {
+    "use strict";
+    if (isValidCell(field, col + offsetCol, row + offsetRow)
+            && field[getIndex(col + offsetCol, row + offsetRow)] === field[getIndex(col, row)]) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function moveTile(field, col, row, offsetCol, offsetRow) {
+    "use strict";
+    var swap = 0, action = false;
+    while (canMove(field, col, row, offsetCol, offsetRow)) {
+        swap = field[getIndex(col, row)];
+        field[getIndex(col, row)] = field[getIndex(col + offsetCol, row + offsetRow)];
+        field[getIndex(col + offsetCol, row + offsetRow)] = swap;
+        col = col + offsetCol;
+        row = row + offsetRow;
+        gameUpdate(field, table);
+        action = true;
+    }
+    if (canMerge(field, col, row, offsetCol, offsetRow)) {
+        field[getIndex(col + offsetCol, row + offsetRow)] = field[getIndex(col, row)] + 1;
+        field[getIndex(col, row)] = 0;
+        action = true;
+    }
+    return action;
+}
+
+function fieldMoveUp(field) {
+    "use strict";
+    var col, row;
+    for (col = 1; col <= gameSize; col += 1) {
+        for (row = 1; row <= gameSize; row += 1) {
+            if (field[getIndex(col, row)] !== 0) {
+                moveTile(field, col, row, 0, -1);
+            }
+        }
+    }
+}
+
+function fieldMoveDown(field) {
+    "use strict";
+    var col, row;
+    for (col = 1; col <= gameSize; col += 1) {
+        for (row = gameSize; row > 0; row -= 1) {
+            if (field[getIndex(col, row)] !== 0) {
+                moveTile(field, col, row, 0, 1);
+            }
+        }
+    }
+}
+
+function fieldMoveLeft(fieldf) {
+    "use strict";
+    var col, row;
+    for (row = 1; row <= gameSize; row += 1) {
+        for (col = 1; col <= gameSize; col += 1) {
+            if (field[getIndex(col, row)] !== 0) {
+                moveTile(field, col, row, -1, 0);
+            }
+        }
+    }
+}
+
+function fieldMoveRight(fieldf) {
+    "use strict";
+    var col, row;
+    for (row = 1; row <= gameSize; row += 1) {
+        for (col = gameSize; col > 0; col -= 1) {
+            if (field[getIndex(col, row)] !== 0) {
+                moveTile(field, col, row, 1, 0);
+            }
+        }
+    }
+}
+
+function keyPressHandler(event) {
+    "use strict";
+    var key = event.keyCode;
+    
+    switch (key) {
+    // Left
+    case 37:
+        fieldMoveLeft(field);
+        addCells(field, 1, 1);
+        gameUpdate(field, table);
+        break;
+    // Up
+    case 38:
+        fieldMoveUp(field);
+        addCells(field, 1, 1);
+        gameUpdate(field, table);
+        break;
+    // Right
+    case 39:
+        fieldMoveRight(field);
+        addCells(field, 1, 1);
+        gameUpdate(field, table);
+        break;
+    // Down
+    case 40:
+        fieldMoveDown(field);
+        addCells(field, 1, 1);
+        gameUpdate(field, table);
+        break;
+    default:
+        return;
+    }
+    event.preventDefault();
 }
 
 initField(field);
